@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title=${account.name})">
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+
+                    <div th:replace="fragments/layout :: nav"></div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div th:replace="fragments/layout :: sidebar"></div>
+
+                <div class="col-7 p-3">
+                    <div class="w-50">
+                        <img th:src="@{'/' + ${account.url} + '/album/' + ${picture.id} + '/file'}" class="img-fluid m-2"/>
+                    </div>
+
+                    <div th:if="${isCurrentUser}">
+                        <div class="row p-2" th:if="${picture.profilePic == false}" >
+
+                            <form action="set" th:action="@{'/' + ${account.url} + '/album/' + ${picture.id} + '/set'}" method="POST">
+                                <button type="submit" class="btn btn-info btn-sm m-1">Set as profile pic</button>
+                            </form>
+                            <form action="set" th:action="@{'/' + ${account.url} + '/album/' + ${picture.id} + '/delete'}" method="POST">
+                                <button type="submit" class="btn btn-danger btn-sm m-1">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="m-2">
+                        <p th:text="${picture.description}"></p>
+                        <div th:if="${areFriends or isCurrentUser}">
+                            <form action="like" th:action="@{'/' + ${account.url} + '/album/' + ${picture.id} + '/like'}" method="POST">
+                                <button type="submit" class="btn btn-light btn-sm">
+                                    👍 <span class="badge badge-light" th:text="${#lists.size(picture.likes)}"></span>
+                                </button>
+                            </form>
+
+                            <div class="m-1 p-2">
+                                <div class="p-1" th:each="comment : ${picture.comments}">
+                                    <span th:text="${comment.commenter.name + ' (' + comment.timestamp + '): ' + comment.content}"></span>
+                                </div>
+                            </div>
+                            <form action="comment" th:action="@{'/' + ${account.url} + '/album/' + ${picture.id} + '/comment'}" th:object="${comment}" method="POST">
+                                <div class="form-group">    
+                                    <textarea class="form-control form-control-sm" placeholder="Write a comment..." th:field="*{content}" />
+                                    <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content errors</span>
+                                </div>
+                                <button type="submit" class="btn btn-info btn-sm float-right">Comment</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    </body>
+</html>

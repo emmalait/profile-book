@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Friend requests')">
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div th:replace="fragments/layout :: nav"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div th:replace="fragments/layout :: sidebar"></div>
+
+                <div class="col-7 p-3">
+                    <h2>Friend requests</h2>
+                    
+                    <p th:if="${#lists.size(friendRequests) == 0}">You don't have any friend requests at the moment. Check back later.</p>
+                    
+                    <table th:unless="${#lists.size(friendRequests) == 0}" class="table table-striped mt-4">
+                        <tr th:each="request : ${friendRequests}">
+                            <td><span th:text="${request.requester.name}"></span></td>
+                            <td>
+                                <form th:action="@{'friend-requests/' + ${request.id} + '/accept'}" method="POST">
+                                    <button type="submit" class="btn btn-info btn-sm float-right">Accept</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{'friend-requests/' + ${request.id} + '/reject'}" method="POST">
+                                    <button type="submit" class="btn btn-danger btn-sm float-right">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

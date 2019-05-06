@@ -1,0 +1,76 @@
+
+<html>
+    <head th:fragment="head(title)" lang="en">
+        <meta charset="UTF-8" />
+        <title th:text="${title}"></title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    </head>
+    <body>
+        <div th:fragment="nav">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" th:href="@{'/'}">Profile Book</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="${'/' + currentUser.url}">Me</a> 
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{'/people'}">People</a> 
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="${'/' + currentUser.url} + '/friend-requests'">Friend requests <span class="badge badge-secondary" th:text="${#lists.size(friendRequests)}"></a> 
+                        </li>
+
+                    </ul>
+                    <div class="float-right">
+                        <form th:action="@{'/logout'}" method="POST">
+                            <button type="submit" class="btn btn-info btn-sm">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <header th:fragment="header(text)">
+            <h1 th:text="${text}">Otsikko</h1>
+        </header>
+
+        <div th:fragment="sidebar" class="col-3 p-3">
+            <img th:if="${hasProfilePic}" th:src="@{'/' + ${account.url} + '/album/' + ${profilePic.id} + '/file'}" class="img-fluid m-2"/>
+            <img th:unless="${hasProfilePic}" th:src="@{/img/placeholder.png}" class="img-fluid m-2"/>
+
+            <h1 th:text="${account.name}"></h1>
+            <p th:text="${'@' + account.url}"></p>
+
+            <div th:unless="${areFriends or isCurrentUser or pendingFriendRequest}" class="mb-3">
+                <form th:action="@{${'/' + account.url} + '/friends'}" method="POST">
+                    <button type="submit" class="btn btn-info btn-sm">Add as a friend</button>
+                </form>
+            </div>
+
+            <div th:if="${pendingFriendRequest}">
+                <span class="btn btn-secondary btn-sm mb-3">Pending friend request</button>
+            </div>
+
+            <p>
+                <a th:href="${'/' + account.url} + '/album'" class="btn btn-info btn-sm">
+                    Album <span class="badge badge-light" th:text="${#lists.size(account.pictures)}"></span>
+                </a>
+            </p>
+
+            <p>
+                <a th:href="${'/' + account.url} + '/friends'" class="btn btn-info btn-sm">
+                    Friends <span class="badge badge-light" th:text="${#lists.size(friends)}"></span>
+                </a>
+            </p>
+
+        </div>
+
+    </body>
+</html>

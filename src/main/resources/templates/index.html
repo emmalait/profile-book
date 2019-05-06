@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Profile Book')">
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body>
+
+        <div class="container h-100">
+
+            <div class="jumbotron vertical-center">
+                <h1 class="display-4">Welcome to Profile Book</h1>
+                <p class="lead">Profile Book is the place to keep in touch with your friends.</p>
+                <hr class="my-4"/>
+                <a class="btn btn-info" th:href="@{'/login'}" role="button">Log in</a>
+                <a class="btn btn-info" th:href="@{'/register'}" role="button">Register</a>
+            </div>
+        </div>
+
+    </body>
+</html>

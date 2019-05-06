@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title=${account.name})">
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+
+                    <div th:replace="fragments/layout :: nav"></div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div th:replace="fragments/layout :: sidebar"></div>
+
+                <div class="col-7 p-3">
+                    <div th:if="${isCurrentUser}">
+                        <div th:if="${#lists.size(account.pictures) ge 10}">
+                            <div class="alert alert-info" role="alert">
+                                You have reached the maximum number of pictures (10). Remove some pictures to upload new ones.
+                            </div>
+                        </div>
+                        <div th:if="${#lists.size(account.pictures) lt 10}">
+
+                            <h4>Upload pictures</h4>
+
+                            <form th:action="@{'/' + ${account.url} + '/album'}" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file" name="file" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="description" placeholder="Description" />
+                                </div>
+                                <input type="submit" class="btn btn-info btn-sm" value="Upload"/>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="p-4">
+                        <div class="media p-3" th:each="picture : ${pictures}">
+                            <div class="w-25">
+                                <a th:href="@{'/' + ${account.url} + '/album/' + ${picture.id}}">
+                                    <img th:src="@{'/' + ${account.url} + '/album/' + ${picture.id} + '/file'}" class="align-self-center w-100 mr-3"/>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <span th:text="${picture.description}" class="p-3"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </body>
+</html>

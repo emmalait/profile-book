@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='People')">
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div th:replace="fragments/layout :: nav"></div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-10 p-3">
+                    <h2>People</h2>
+
+                    <p th:if="${#lists.size(accounts) == 0}">No registered users yet!</p>
+
+                    <table th:unless="${#lists.size(accounts) == 0}" class="table table-striped mt-4">
+                        <tr th:each="account : ${accounts}">
+                            <td><span th:text="${account.name}"></span></td>
+                            <td><a th:href="'/' + ${account.url}" th:text="${'@' + account.url}"></a></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

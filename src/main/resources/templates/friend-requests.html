@@ -21,8 +21,18 @@
                     <p th:if="${#lists.size(friendRequests) == 0}">You don't have any friend requests at the moment. Check back later.</p>
                     
                     <table th:unless="${#lists.size(friendRequests) == 0}" class="table table-striped mt-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">From</th>
+                                <th scope="col">Made on</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
                         <tr th:each="request : ${friendRequests}">
                             <td><span th:text="${request.requester.name}"></span></td>
+                            <td><span th:text="${'' + request.timestamp}"></span></td>
+                            
                             <td>
                                 <form th:action="@{'friend-requests/' + ${request.id} + '/accept'}" method="POST">
                                     <button type="submit" class="btn btn-info btn-sm float-right">Accept</button>

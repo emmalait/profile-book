@@ -2,9 +2,9 @@
 package project.friendship;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +26,8 @@ public class Friendship extends AbstractPersistable<Long>  {
     private boolean accepted;
     
     private boolean handled;
+    
+    private LocalDateTime timestamp;
     
     private LocalDate handledDate;
     

@@ -96,6 +96,7 @@ public class PictureController {
         model.addAttribute("friends", friendshipService.getFriends(profile));
         
         model.addAttribute("picture", pictureService.getOne(id));
+        model.addAttribute("comments", commentService.findRecentCommentsOnPicture(pictureService.getOne(id)));
         
         return "picture";
     }

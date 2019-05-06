@@ -44,7 +44,7 @@
                             </form>
 
                             <div class="m-1 p-2">
-                                <div class="p-1" th:each="comment : ${picture.comments}">
+                                <div class="p-1" th:each="comment : ${comments}">
                                     <span th:text="${comment.commenter.name + ' (' + comment.timestamp + '): ' + comment.content}"></span>
                                 </div>
                             </div>

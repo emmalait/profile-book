@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.account.Account;
+import project.comment.CommentService;
 
 @Service
 public class PostService {
@@ -13,14 +14,20 @@ public class PostService {
     @Autowired
     PostRepository postRepository;
     
+    @Autowired
+    CommentService commentService;
+    
     public Post getOne(Long id) {
         return postRepository.getOne(id);
     }
     
     public List<Post> getRecent(Account account) {
-        List<Post> posts = account.getReceivedPosts();
-        posts.sort((Post o1, Post o2)->o2.getTimestamp().compareTo(o1.getTimestamp()));
-        posts.stream().limit(25);
+        List<Post> posts = postRepository.findTop25ByRecipientOrderByTimestampDesc(account);
+        
+        for (Post post : posts) {
+            post.setComments(commentService.findRecentCommentsOnPost(post));
+        }
+        
         return posts;
     }
     

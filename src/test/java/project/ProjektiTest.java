@@ -1,4 +1,4 @@
-package projekti;
+package project;
 
 import org.junit.Test;
 

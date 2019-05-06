@@ -40,4 +40,16 @@ public class CommentService {
             commentRepository.delete(comment);
         }
     }
+    
+    public List<Comment> findRecentCommentsOnPost(Post post) {
+        List<Comment> comments = commentRepository.findTop10ByPostOrderByTimestampDesc(post);
+        comments.sort((Comment c1, Comment c2) -> c1.getTimestamp().compareTo(c2.getTimestamp()));
+        return comments;
+    }
+    
+    public List<Comment> findRecentCommentsOnPicture(Picture picture) {
+        List<Comment> comments = commentRepository.findTop10ByPictureOrderByTimestampDesc(picture);
+        comments.sort((Comment c1, Comment c2) -> c1.getTimestamp().compareTo(c2.getTimestamp()));
+        return comments;
+    }
 }
